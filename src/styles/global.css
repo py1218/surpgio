@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.neon {
+  text-shadow:
+    0 0 5px #ff00de,
+    0 0 10px #ff00de;
+}
+
+.neon-pink {
+  text-shadow:
+    0 0 2px #fd79a8,
+    0 0 6px #fd79a8;
+}
+
+.neon-blue {
+  text-shadow:
+    0 0 2px #81ecec,
+    0 0 6px #81ecec;
+}
+
+@keyframes flickerPink {
+  0% {
+    text-shadow: 0 0 1px #fd79a8, 0 0 3px #fd79a8;
+    opacity: 0.8;
+  }
+  10% {
+    text-shadow: 0 0 8px #fd79a8, 0 0 20px #fd79a8;
+    opacity: 1;
+  }
+  20% {
+    text-shadow: 0 0 2px #fd79a8, 0 0 6px #fd79a8;
+    opacity: 0.9;
+  }
+  35% {
+    text-shadow: 0 0 10px #fd79a8, 0 0 25px #fd79a8;
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 3px #fd79a8, 0 0 8px #fd79a8;
+    opacity: 0.85;
+  }
+  75% {
+    text-shadow: 0 0 12px #fd79a8, 0 0 30px #fd79a8;
+    opacity: 1;
+  }
+  100% {
+    text-shadow: 0 0 1px #fd79a8, 0 0 3px #fd79a8;
+    opacity: 0.8;
+  }
+}
+
+
+@keyframes flickerBlue {
+  0% {
+    text-shadow: 0 0 1px #81ecec, 0 0 3px #81ecec;
+    opacity: 0.8;
+  }
+  10% {
+    text-shadow: 0 0 8px #81ecec, 0 0 20px #81ecec;
+    opacity: 1;
+  }
+  20% {
+    text-shadow: 0 0 2px #81ecec, 0 0 6px #81ecec;
+    opacity: 0.9;
+  }
+  35% {
+    text-shadow: 0 0 10px #81ecec, 0 0 25px #81ecec;
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 3px #81ecec, 0 0 8px #81ecec;
+    opacity: 0.85;
+  }
+  75% {
+    text-shadow: 0 0 12px #81ecec, 0 0 30px #81ecec;
+    opacity: 1;
+  }
+  100% {
+    text-shadow: 0 0 1px #81ecec, 0 0 3px #81ecec;
+    opacity: 0.8;
+  }
+}
+
+
+.flicker-pink {
+  animation: flickerPink 6s infinite;
+}
+
+.flicker-blue {
+  animation: flickerBlue 6s infinite;
+}
