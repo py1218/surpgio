@@ -4,6 +4,8 @@ import '../styles/global.css'
 <head>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
+<audio id="bg-audio" src="/chic-mirage.mp3" loop muted preload="auto"></audio>
+
 <div class="h-screen bg-center bg-cover bg-no-repeat text-center px-4 flex flex-col"
      style="background-image: url('/surpgio_background.png');">
   
@@ -24,4 +26,21 @@ import '../styles/global.css'
   </div>
 
 </div>
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('bg-audio');
+    // Start silently so autoplay is allowed
+    audio.play().catch(() => {});
 
+    // On first click / key-press, un-mute and restart
+    const unmute = () => {
+      audio.muted = false;
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+      window.removeEventListener('click', unmute);
+      window.removeEventListener('keydown', unmute);
+    };
+    window.addEventListener('click', unmute, { once: true });
+    window.addEventListener('keydown', unmute, { once: true });
+  });
+</script>

@@ -88,9 +88,9 @@ body {
 
 
 .flicker-pink {
-  animation: flickerPink 6s infinite;
+  animation: flickerPink 2.5s infinite;
 }
 
 .flicker-blue {
-  animation: flickerBlue 6s infinite;
+  animation: flickerBlue 2.5s infinite;
 }
