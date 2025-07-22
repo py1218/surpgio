@@ -14,7 +14,34 @@ import { SITE_TITLE, NAV_LINKS as links } from "@/consts";
         <img src="/surpg1_crop.png" alt="Logo" class="h-16 w-auto" />
       </div>
     </a>
-    
+    <div class="flex flex-wrap gap-4 md:pr-5">
+      <div class="hidden md:block">/</div>
+      {
+        links.map((link) => {
+          const href =
+            link.href ?? link.directory.toLowerCase().replaceAll(" ", "-");
+          const pathname = Astro.url.pathname.replace(
+            import.meta.env.BASE_URL,
+            "",
+          );
+          const subpath = pathname.match(/[^\/]+/g);
+          const isActive =
+            href === pathname || href === "/" + (subpath?.[0] || "");
+          return (
+            <>
+              <a
+                class:list={[{ "bg-[#dfe6e9] text-black": isActive }]}
+                class="hover:bg-[#dfe6e9] hover:text-black transition-all ease-in-out px-2 max-w-fit"
+                href={`/${href}`}
+              >
+                <div>{link.title}</div>
+              </a>
+              <div class="hidden md:block">/</div>
+            </>
+          );
+        })
+      }
+    </div>
   </div>
 </nav>
 
@@ -24,7 +51,7 @@ import { SITE_TITLE, NAV_LINKS as links } from "@/consts";
     if (!logo) return;
     if (window.scrollY > 100) {
       logo.className =
-        "pt-2 pb-1 !grid !place-items-center select-none leading-none bg-transparent scale-100 text-white px-4 transition-all ease-in-out";
+        "pt-2 pb-1 !grid !place-items-center select-none leading-none bg-transparent scale-100 text-[#dfe6e9] px-4 transition-all ease-in-out";
     } else {
       logo.className =
         "pt-2 pb-1 !grid !place-items-center select-none leading-none bg-transparent scale-110 text-black px-4 transition-all ease-in-out";

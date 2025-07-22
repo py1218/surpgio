@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+import { QUOTE, SITE_TITLE } from "@/consts";
+---
+
+<div
+  class="fixed top-0 -z-10 !w-screen md:block h-screen bg-cover bg-center tracking-wide"
+  style="background-image: url('/surpgio_background.png');"
+></div>
+
+<section
+  class="h-screen !z-[20] relative w-full flex items-start justify-center pt-12"
+  id="hero"
+>
+    <div 
+      class="mt-8 text-center max-w-2xl p-16 rounded-lg text-white"
+      style="
+        background: linear-gradient(to bottom, rgba(108, 92, 231, 0.7), rgba(72, 61, 156, 0.7));
+      "
+    >
+        
+        <div class="text-base" 
+          style="
+            color: #dfe6e9; 
+            text-align: justify; 
+            text-align-last: left;
+          "
+        >
+            Sexy Unique RPG is a 16-bit style, top-down RPG inspired by the early seasons of Vanderpump Rules. Set in a pixelated West Hollywood, you play as a new server at SUR (Sexy Unique Restaurant), where the tips are low and the stakes are high.
+            <br><br>
+            Talk to AI-powered versions of the cast, stir up drama, and try to survive the social minefield of WeHo nightlife, all under the watchful eye of Lisa Vanderpump.
+            <br><br>
+            The game is a fictionalized take on the Vanderpump Rules universe, with original storylines and scenes that expand over time. Two chaotic chapters are available now, with more on the way.
+            <br><br>
+        </div>
+        <div class="text-xl font-bold" style="color: #55efc4;">
+            Serve drinks. Start drama. Become a legend.
+        </div>
+    </div>
+</section>
+
+
+
