@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import { QUOTE, SITE_TITLE } from "@/consts";
+---
+
+<div
+  class="fixed top-0 -z-10 !w-screen md:block h-screen bg-cover bg-center tracking-wide"
+  style="background-image: url('/surpgio_background.png');"
+></div>
+<section
+  class="h-screen !z-[20] relative w-full flex items-start justify-center pt-24"
+  id="hero"
+>
+  <div class="flex flex-col items-center">
+    <iframe
+      src="https://www.youtube.com/embed/_yyaAsggZkw"
+      width="800"
+      height="450"
+      allowfullscreen
+      class="rounded shadow-lg"
+      style="border:none;"
+    ></iframe>
+    <div class="mt-8 text-center text-xl font-semibold max-w-xl flicker-blue">
+      Sexy Unique RPG: Stir up drama, serve cocktails, and survive SUR — all in 16-bit style.
+    </div>
+  </div>
+</section>
+

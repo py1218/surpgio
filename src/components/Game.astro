@@ -1,0 +1,22 @@
+---
+import { Image } from "astro:assets";
+import { QUOTE, SITE_TITLE } from "@/consts";
+---
+
+<div
+  class="fixed top-0 -z-10 !w-screen md:block h-screen bg-cover bg-center tracking-wide"
+  style="background-image: url('/surpgio_background.png');"
+></div>
+<section
+  class="h-screen !z-[20] relative w-full flex items-start justify-center pt-12"
+  id="hero"
+>
+  <iframe
+    src="/unitygame/index.html"
+    width="960"
+    height="540"
+    class="rounded shadow-lg"
+    style="border:none;"
+  ></iframe>
+</section>
+
