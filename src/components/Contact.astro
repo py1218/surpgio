@@ -35,12 +35,9 @@ import { QUOTE, SITE_TITLE } from "@/consts";
       </script>
       <form 
         name="contact"
-        method="POST"
-        data-netlify="true"
-        action="/success"
+        netlify
         class="flex flex-col gap-6 w-full max-w-4xl mx-auto"
       >
-        <input type="hidden" name="form-name" value="contact" />
         <div class="flex flex-col md:flex-row gap-6">
           <div class="flex-1">
             <label for="name" class="block text-left mb-1 text-base" style="color: #dfe6e9;">Name</label>
