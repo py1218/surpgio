@@ -19,4 +19,8 @@ export const NAV_LINKS: Array<{ title: string; href?: string; directory: string;
     title: "About",
     directory: "about",
   },
+  {
+    title: "Contact",
+    directory: "contact",
+  },
 ];
