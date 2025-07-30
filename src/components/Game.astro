@@ -3,65 +3,81 @@ import { Image } from "astro:assets";
 import { QUOTE, SITE_TITLE } from "@/consts";
 ---
 
-<!-- Full‑page background image -->
+<!-- Full‑page background -->
 <div
   class="fixed top-0 -z-10 w-screen h-screen bg-cover bg-center tracking-wide md:block"
-  style="background-image: url('/surpgio_background.png');"
+  style="background-image:url('/surpgio_background.png');"
 ></div>
 
 <section
   id="hero"
-  class="relative flex flex-col items-center justify-center w-full flex-1 min-h-[540px] min-h-[60vh] pt-4 pb-2 overflow-y-auto z-20"
+  class="relative flex flex-col items-center justify-center w-full flex-1 min-h-[60vh] pt-4 pb-2 overflow-y-auto z-20"
 >
   <div
     class="rounded shadow-lg flex items-center justify-center w-full max-w-[960px] aspect-video"
     style="background:#000;"
   >
-    <!-- ─── Game iframe (hidden by default) ─────────────────────────── -->
+    <!-- Game iframe → hidden until inside operating hours -->
     <iframe
       id="game-frame"
       src="/build_test/index.html"
-      loading="lazy"
       allow="fullscreen; autoplay"
       title="Sexy Unique RPG Web Demo"
       class="w-full h-full border-0 rounded"
       style="display:none;"
     ></iframe>
 
-    <!-- ─── Fallback / status message ──────────────────────────────── -->
+    <!-- Fallback text shown when game is offline -->
     <span id="game-message" class="text-3xl font-bold text-[#dfe6e9]">
       Coming Soon...
     </span>
   </div>
 </section>
 
-<!-- ─── Time‑window toggle logic (5 PM – 10 PM PT) ───────────────────── -->
 <script type="module">
   /**
-   * Returns true if current PT hour is within [startHour, endHour)
-   * @param {number} startHour – inclusive (0‑23)
-   * @param {number} endHour   – exclusive (0‑23)
-   * @param {string} tz        – IANA TZ name
+   * Get current hour in Pacific Time (24‑h clock)
    */
-  function isInTimeRange(startHour, endHour, tz = "America/Los_Angeles") {
-    const nowPT   = new Date().toLocaleString("en-US", { timeZone: tz });
-    const hourPT  = new Date(nowPT).getHours();
-    return hourPT >= startHour && hourPT < endHour;
+  function getHourPT() {
+    return Number(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Los_Angeles",
+        hour: "numeric",
+        hour12: false,
+      }).format(new Date())
+    );
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
+  function updateGameAvailability() {
     const msg  = document.getElementById("game-message");
     const game = document.getElementById("game-frame");
-
     if (!msg || !game) return;
 
-    if (isInTimeRange(10, 22)) {           // 17:00–21:59 PT
-      msg.textContent   = "Special event is live! 🎉";
-      msg.style.display = "none";          // hide message
-      game.style.display = "block";        // show iframe
+    const hour = getHourPT();
+    const isOpen = hour >= 1 && hour < 22; // 5 PM ≤ hour < 10 PM PT
+
+    if (isOpen) {
+      game.style.display = "block";
+      msg.style.display  = "none";
     } else {
-      msg.textContent   = "Coming Soon...";
-      game.style.display = "none";         // keep iframe hidden
+      game.style.display = "none";
+      msg.textContent    = "Coming Soon...";
+      msg.style.display  = "block";
     }
+  }
+
+  // Run immediately — works even if DOMContentLoaded already fired
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", updateGameAvailability);
+  } else {
+    updateGameAvailability();
+  }
+
+  // Re‑run when the tab regains focus (navigation without hard refresh)
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) updateGameAvailability();
   });
+
+  // Optional: keep checking every minute so page flips automatically at 5 PM/10 PM
+  setInterval(updateGameAvailability, 60_000);
 </script>
