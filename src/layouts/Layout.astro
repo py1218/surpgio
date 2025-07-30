@@ -11,6 +11,17 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
 <html lang="en" class="!overflow-x-hidden">
   <head>
     <BaseHead title={title} description={description} />
+    <meta property="og:title" content="Sexy Unique RPG" />
+    <meta property="og:description" content="Stir up drama, serve cocktails, and survive SUR — all in 16-bit style." />
+    <meta property="og:image" content="/surpgio_background.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://surpg.io" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sexy Unique RPG" />
+    <meta name="twitter:description" content="Stir up drama, serve cocktails, and survive SUR — all in 16-bit style." />
+    <meta name="twitter:image" content="/surpgio_background.png" />
     <style>
       body::-webkit-scrollbar {
         display: none;
