@@ -3,38 +3,65 @@ import { Image } from "astro:assets";
 import { QUOTE, SITE_TITLE } from "@/consts";
 ---
 
+<!-- Full‑page background image -->
 <div
-  class="fixed top-0 -z-10 !w-screen md:block h-screen bg-cover bg-center tracking-wide"
+  class="fixed top-0 -z-10 w-screen h-screen bg-cover bg-center tracking-wide md:block"
   style="background-image: url('/surpgio_background.png');"
 ></div>
+
 <section
-  class="flex-1 !z-[20] relative w-full flex flex-col items-center justify-center min-h-[540px] min-h-[60vh] pt-4 pb-2 overflow-y-auto"
   id="hero"
+  class="relative flex flex-col items-center justify-center w-full flex-1 min-h-[540px] min-h-[60vh] pt-4 pb-2 overflow-y-auto z-20"
 >
   <div
     class="rounded shadow-lg flex items-center justify-center w-full max-w-[960px] aspect-video"
     style="background:#000;"
   >
-    <script type="module">
-      function isInTimeRange(startHour, endHour, tz = "America/Los_Angeles") {
-        const now = new Date();
-        const nowPT = new Date(now.toLocaleString("en-US", { timeZone: tz }));
-        const hour = nowPT.getHours();
-        return hour >= startHour && hour < endHour;
-      }
-      window.addEventListener("DOMContentLoaded", () => {
-        const el = document.getElementById("game-message");
-        if (!el) return;
-        if (isInTimeRange(17, 22)) {
-          el.textContent = "Special event is live! 🎉";
-        } else {
-          el.textContent = "Coming Soon...";
-        }
-      });
-    </script>
+    <!-- ─── Game iframe (hidden by default) ─────────────────────────── -->
+    <iframe
+      id="game-frame"
+      src="/build_test/index.html"
+      loading="lazy"
+      allow="fullscreen; autoplay"
+      title="Sexy Unique RPG Web Demo"
+      class="w-full h-full border-0 rounded"
+      style="display:none;"
+    ></iframe>
+
+    <!-- ─── Fallback / status message ──────────────────────────────── -->
     <span id="game-message" class="text-3xl font-bold text-[#dfe6e9]">
       Coming Soon...
     </span>
   </div>
 </section>
 
+<!-- ─── Time‑window toggle logic (5 PM – 10 PM PT) ───────────────────── -->
+<script type="module">
+  /**
+   * Returns true if current PT hour is within [startHour, endHour)
+   * @param {number} startHour – inclusive (0‑23)
+   * @param {number} endHour   – exclusive (0‑23)
+   * @param {string} tz        – IANA TZ name
+   */
+  function isInTimeRange(startHour, endHour, tz = "America/Los_Angeles") {
+    const nowPT   = new Date().toLocaleString("en-US", { timeZone: tz });
+    const hourPT  = new Date(nowPT).getHours();
+    return hourPT >= startHour && hourPT < endHour;
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const msg  = document.getElementById("game-message");
+    const game = document.getElementById("game-frame");
+
+    if (!msg || !game) return;
+
+    if (isInTimeRange(10, 22)) {           // 17:00–21:59 PT
+      msg.textContent   = "Special event is live! 🎉";
+      msg.style.display = "none";          // hide message
+      game.style.display = "block";        // show iframe
+    } else {
+      msg.textContent   = "Coming Soon...";
+      game.style.display = "none";         // keep iframe hidden
+    }
+  });
+</script>
