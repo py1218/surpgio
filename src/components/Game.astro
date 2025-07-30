@@ -15,7 +15,26 @@ import { QUOTE, SITE_TITLE } from "@/consts";
     class="rounded shadow-lg flex items-center justify-center w-full max-w-[960px] aspect-video"
     style="background:#000;"
   >
-    <span class="text-3xl font-bold text-[#dfe6e9]">Coming Soon...</span>
+    <script type="module">
+      function isInTimeRange(startHour, endHour, tz = "America/Los_Angeles") {
+        const now = new Date();
+        const nowPT = new Date(now.toLocaleString("en-US", { timeZone: tz }));
+        const hour = nowPT.getHours();
+        return hour >= startHour && hour < endHour;
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        const el = document.getElementById("game-message");
+        if (!el) return;
+        if (isInTimeRange(17, 22)) {
+          el.textContent = "Special event is live! 🎉";
+        } else {
+          el.textContent = "Coming Soon...";
+        }
+      });
+    </script>
+    <span id="game-message" class="text-3xl font-bold text-[#dfe6e9]">
+      Coming Soon...
+    </span>
   </div>
 </section>
 
