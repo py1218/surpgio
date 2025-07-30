@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity Web Player | surpg</title>
+
+  <!-- ADDED ▸ put simple CSS up here so it loads before the canvas draws -->
+  <style>
+    /* 1 · keep 16:9 no matter the page width */
+    #unity-container {                /* wrapper we’ll add around canvas   */
+      width: 100%;                    /* stretch to whatever parent gives  */
+      max-width: 1920px;              /* optional cap (remove if not wanted) */
+      margin: 0 auto;                 /* centre horizontally               */
+      aspect-ratio: 16/9;             /* keeps height in lock-step         */
+      position: relative;             /* lets the canvas fill it           */
+    }
+    #unity-canvas {
+      width: 100%;                    /* fill wrapper                      */
+      height: 100%;                   /* auto-calculated by aspect-ratio   */
+      display: block;                 /* removes default inline-gap        */
+    }
+  </style>
+</head>
+
+<body style="padding:0;border:0;margin:0;background:#000;">
+  <!-- ADDED ▸ wrapper -->
+  <div id="unity-container">
+    <!-- keep template placeholders so Build Settings still work -->
+    <canvas id="unity-canvas"
+            width="1920"
+            height="1080"
+            tabindex="-1"
+            style="background: #231F20">
+    </canvas>
+  </div>
+
+  <script src="Build/build_test.loader.js"></script>
+  <script>
+    /* MOBILE SECTION stays the same ------------------------------------- */
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no';
+      document.head.appendChild(meta);
+    }
+
+    /* Unity loader ------------------------------------------------------- */
+    createUnityInstance(document.querySelector("#unity-canvas"), {
+      arguments: [],
+      dataUrl: "Build/build_test.data.br",
+      frameworkUrl: "Build/build_test.framework.js.br",
+      codeUrl: "Build/build_test.wasm.br",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "pbrain studios",
+      productName: "surpg",
+      productVersion: "1.0",
+
+      /* 2 · leave this ON (default) so Unity resizes its render target
+            whenever the CSS size of #unity-canvas changes.                */
+      // matchWebGLToCanvasSize: true,
+
+      /* 3 · optional: cap DPI so shrinking the canvas also saves GPU fill-rate
+            (comment out if you want native-resolution UI on Retina).       */
+      // devicePixelRatio: 1
+    });
+  </script>
+</body>
+</html>
