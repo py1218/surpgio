@@ -12,7 +12,7 @@ export const GITHUB_USERNAME = "py1218";
 export const QUOTE = "Programmer, Gamer, Editor and Student";
 export const NAV_LINKS: Array<{ title: string; href?: string; directory: string; }> = [
   {
-    title: "Play (Coming Soon)",
+    title: "Play",
     directory: "play",
   },
   {
