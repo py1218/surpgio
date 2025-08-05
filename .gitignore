@@ -22,4 +22,4 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-public/build_test2/Build/
+public/build_test/Build/
