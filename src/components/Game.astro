@@ -3,9 +3,9 @@ import { Image } from "astro:assets";
 import { QUOTE, SITE_TITLE } from "@/consts";
 ---
 
-<!-- Full‑page background image -->
+<!-- Full-page background image -->
 <div
-  class="fixed top-0 -z-10 w-screen h-screen bg-cover bg-center tracking-wide md:block"
+  class="fixed inset-0 -z-10 bg-cover bg-center tracking-wide md:block"
   style="background-image:url('/surpgio_background.png');"
 ></div>
 
@@ -13,16 +13,40 @@ import { QUOTE, SITE_TITLE } from "@/consts";
   id="game"
   class="relative flex flex-col items-center justify-center w-full flex-1 min-h-[60vh] pt-4 pb-2 overflow-y-auto z-20"
 >
+  <!-- ── GAME WRAPPER ─────────────────────────────────────────── -->
   <div
-    class="rounded shadow-lg w-full max-w-[960px] aspect-video"
-    style="background:#000;"
+    id="game-container"
+    class="rounded shadow-lg w-full max-w-[960px] aspect-video box-border"
   >
     <iframe
       src="/build_test/index.html"
       allow="fullscreen; autoplay"
       loading="lazy"
       title="Sexy Unique RPG Web Demo"
-      class="w-full h-full border-0 rounded"
+      class="w-full h-full border-0"
     ></iframe>
   </div>
+
+  <!-- ── CLOSED MESSAGE ──────────────────────────────────────── -->
+  <div
+    id="mobile-gate"
+    class="hidden mt-6 text-center text-l font-semibold text-white neon-pink"
+  >
+    🚧  Sexy Unique RPG is currently desktop‑only.<br />
+    Grab a laptop for the full SUR chaos! 💅
+  </div>
 </section>
+
+<script is:inline>
+  const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(navigator.userAgent);
+  const isTiny   = window.matchMedia('(max-width: 767px)').matches;
+
+ if (isMobile || isTiny) {
+    document.getElementById("game-container").style.display = 'none';
+    document.getElementById('mobile-gate').style.display = 'block';
+  }
+  else {
+    document.getElementById("game-container").style.display = 'block';
+    document.getElementById('mobile-gate').style.display = 'none';
+  }
+</script>
