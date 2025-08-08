@@ -11,8 +11,8 @@ import { QUOTE, SITE_TITLE } from "@/consts";
 
 <section
   id="game"
-  class="relative flex flex-col items-center justify-start md:justify-center     
-         w-full flex-1 min-h-[60vh] pt-20 md:pt-4 pb-2 overflow-y-auto z-20">
+  class="relative flex flex-col items-center justify-center w-full flex-1 min-h-[60vh] pt-4 pb-2 overflow-y-auto z-20"
+>
   <!-- ── GAME WRAPPER ─────────────────────────────────────────── -->
   <div
     id="game-container"
@@ -29,24 +29,29 @@ import { QUOTE, SITE_TITLE } from "@/consts";
 
   <!-- ── CLOSED MESSAGE ──────────────────────────────────────── -->
   <div
-    id="mobile-gate"
-    class="hidden mt-2 text-center text-l font-semibold text-white neon-pink"
+    id="closed-message"
+    class="hidden mt-6 text-center text-xl font-semibold text-white neon-pink"
   >
-    🚧  Sexy Unique RPG is currently desktop‑only.<br />
-    Grab a laptop for the full SUR chaos! 💅
+    Please come back during business hours (5&nbsp;–&nbsp;10 PM&nbsp;PT).
   </div>
 </section>
 
-<script is:inline>
-  const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(navigator.userAgent);
-  const isTiny   = window.matchMedia('(max-width: 767px)').matches;
+<!-- ── BUSINESS-HOURS SWITCHER ──────────────────────────────── -->
+<script type="module">
+  // Returns true if the current time in America/Los_Angeles is 17:00-21:59
+  function inBusinessHours() {
+    const now = new Date();
+    const ptHour = Number(
+      new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        hour12: false,
+        timeZone: "America/Los_Angeles",
+      }).format(now)
+    );
+    return ptHour >= 17 && ptHour < 22;
+  }
 
- if (isMobile || isTiny) {
-    document.getElementById("game-container").style.display = 'none';
-    document.getElementById('mobile-gate').style.display = 'block';
-  }
-  else {
-    document.getElementById("game-container").style.display = 'block';
-    document.getElementById('mobile-gate').style.display = 'none';
-  }
+  const showGame = inBusinessHours();
+  document.getElementById("game-container").style.display = showGame ? "" : "none";
+  document.getElementById("closed-message").style.display = showGame ? "none" : "block";
 </script>
