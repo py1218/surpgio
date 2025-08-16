@@ -27,18 +27,45 @@ import { QUOTE, SITE_TITLE } from "@/consts";
     ></iframe>
   </div>
 
-  <!-- ── CLOSED MESSAGE ──────────────────────────────────────── -->
+  <!-- ── CLOSED MESSAGE (desktop, outside hours) ─────────────── -->
   <div
     id="closed-message"
     class="hidden mt-6 text-center text-xl font-semibold text-white neon-pink"
   >
     Please come back during business hours (5&nbsp;–&nbsp;10 PM&nbsp;PT).
   </div>
+
+  <!-- ── MOBILE APP STORE MESSAGE (overrides hours) ──────────── -->
+  <div
+    id="mobile-message"
+    class="hidden mt-6 text-center text-xl font-semibold text-white neon-pink"
+  >
+    <p class="mb-3">Phones get the VIP treatment. Download the app to jump in.</p>
+    <a
+      href="https://apps.apple.com/app/id6751006344"
+      target="_blank"
+      rel="noopener"
+      aria-label="Download Sexy Unique RPG on the App Store"
+      class="inline-block"
+    >
+      <img
+        src="/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+        alt="Download on the App Store"
+        class="h-12 w-auto"
+        loading="lazy"
+      />
+    </a>
+  </div>
 </section>
 
-<!-- ── BUSINESS-HOURS SWITCHER ──────────────────────────────── -->
+<!-- ── VISIBILITY LOGIC ──────────────────────────────────────── -->
 <script type="module">
-  // Returns true if the current time in America/Los_Angeles is 17:00-21:59
+  // Mobile detection (UA-based so desktop narrow windows aren't misclassified)
+  const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(
+    navigator.userAgent
+  );
+
+  // Returns true if the current time in America/Los_Angeles is 17:00–21:59
   function inBusinessHours() {
     const now = new Date();
     const ptHour = Number(
@@ -51,7 +78,24 @@ import { QUOTE, SITE_TITLE } from "@/consts";
     return ptHour >= 17 && ptHour < 22;
   }
 
-  const showGame = inBusinessHours();
-  document.getElementById("game-container").style.display = showGame ? "" : "none";
-  document.getElementById("closed-message").style.display = showGame ? "none" : "block";
+  const gameEl = document.getElementById("game-container");
+  const closedEl = document.getElementById("closed-message");
+  const mobileEl = document.getElementById("mobile-message");
+
+  if (isMobile) {
+    // 🔒 Mobile override: show App Store, hide everything else
+    gameEl.style.display = "none";
+    closedEl.style.display = "none";
+    mobileEl.style.display = "block";
+
+    // Optional: stop the iframe from loading at all on mobile
+    const iframe = gameEl.querySelector("iframe");
+    if (iframe) iframe.removeAttribute("src");
+  } else {
+    // Desktop: respect business hours
+    const showGame = inBusinessHours();
+    gameEl.style.display = showGame ? "" : "none";
+    closedEl.style.display = showGame ? "none" : "block";
+    mobileEl.style.display = "none";
+  }
 </script>

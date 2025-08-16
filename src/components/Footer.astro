@@ -4,13 +4,32 @@ import { SITE_TITLE } from "@/consts";
 const today = new Date();
 ---
 
-
 <section
   id="footer"
-  class="w-full grid relative place-items-center text-center py-4 bg-[#dfe6e9]/[0.001]"
+  class="w-full md:relative md:static fixed bottom-0 inset-x-0 md:inset-auto
+       text-center py-3 md:py-4 z-30"
 >
-  <div class="px-2 py-1 border-2 border-[#dfe6e9] text-xs">
-    &copy; {today.getFullYear()}
-    {SITE_TITLE}. All rights reserved.
+  <div class="mx-auto max-w-[960px]">
+    <!-- Mobile-only App Store badge -->
+    <div class="mb-3 flex justify-center">
+      <a
+        href="https://apps.apple.com/app/id6751006344"
+        target="_blank"
+        rel="noopener"
+        aria-label="Download Sexy Unique RPG on the App Store"
+        class="inline-block"
+      >
+        <img
+          src="/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+          alt="Download on the App Store"
+          class="h-12 w-auto"
+          loading="lazy"
+        />
+      </a>
+    </div>
+
+    <div class="px-2 py-1 border-2 border-[#dfe6e9] text-xs inline-block">
+      &copy; {today.getFullYear()} {SITE_TITLE}. All rights reserved.
+    </div>
   </div>
 </section>
