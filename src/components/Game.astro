@@ -60,6 +60,9 @@ import { QUOTE, SITE_TITLE } from "@/consts";
 
 <!-- ── VISIBILITY LOGIC ──────────────────────────────────────── -->
 <script type="module">
+  // ── CONFIG FLAG ──
+  const followBusinessHours = false; // ⬅ flip to false to ignore hours
+
   // Mobile detection (UA-based so desktop narrow windows aren't misclassified)
   const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(
     navigator.userAgent
@@ -92,10 +95,17 @@ import { QUOTE, SITE_TITLE } from "@/consts";
     const iframe = gameEl.querySelector("iframe");
     if (iframe) iframe.removeAttribute("src");
   } else {
-    // Desktop: respect business hours
-    const showGame = inBusinessHours();
-    gameEl.style.display = showGame ? "" : "none";
-    closedEl.style.display = showGame ? "none" : "block";
-    mobileEl.style.display = "none";
+    if (followBusinessHours) {
+      // Desktop: respect business hours
+      const showGame = inBusinessHours();
+      gameEl.style.display = showGame ? "" : "none";
+      closedEl.style.display = showGame ? "none" : "block";
+      mobileEl.style.display = "none";
+    } else {
+      // Desktop: always show game
+      gameEl.style.display = "";
+      closedEl.style.display = "none";
+      mobileEl.style.display = "none";
+    }
   }
 </script>
