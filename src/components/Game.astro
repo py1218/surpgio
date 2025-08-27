@@ -3,109 +3,102 @@ import { Image } from "astro:assets";
 import { QUOTE, SITE_TITLE } from "@/consts";
 ---
 
-<!-- Full-page background image -->
 <div
-  class="fixed inset-0 -z-10 bg-cover bg-center tracking-wide md:block"
+  class="fixed inset-0 -z-10 bg-cover bg-center"
   style="background-image:url('/surpgio_background.png');"
 ></div>
 
 <section
   id="game"
-  class="relative flex flex-col items-center justify-center w-full flex-1 min-h-[60vh] pt-4 pb-2 overflow-y-auto z-20"
+  class="relative flex flex-col items-center justify-center w-full min-h-[80dvh] sm:min-h-[70dvh] px-4 sm:px-6 py-8 sm:py-10 z-20"
 >
-  <!-- ── GAME WRAPPER ─────────────────────────────────────────── -->
+  <!-- Message -->
   <div
-    id="game-container"
-    class="rounded shadow-lg w-full max-w-[960px] aspect-video box-border"
+    class="text-center text-white neon-pink"
+    role="status"
+    aria-live="polite"
   >
-    <iframe
-      src="/build_test/index.html"
-      allow="fullscreen; autoplay"
-      loading="lazy"
-      title="Sexy Unique RPG Web Demo"
-      class="w-full h-full border-0"
-    ></iframe>
+    <h1 class="font-semibold leading-tight [text-wrap:balance] text-[clamp(18px,4vw,28px)]">
+      Currently unavailable — coming back soon!
+    </h1>
+    <p class="mt-3 text-white/85 text-[clamp(14px,3.2vw,18px)]">
+      Stay tuned for updates from pbrain studios.
+    </p>
   </div>
 
-  <!-- ── CLOSED MESSAGE (desktop, outside hours) ─────────────── -->
-  <div
-    id="closed-message"
-    class="hidden mt-6 text-center text-xl font-semibold text-white neon-pink"
-  >
-    Please come back during business hours (5&nbsp;–&nbsp;10 PM&nbsp;PT).
-  </div>
-
-  <!-- ── MOBILE APP STORE MESSAGE (overrides hours) ──────────── -->
-  <div
-    id="mobile-message"
-    class="hidden mt-6 text-center text-xl font-semibold text-white neon-pink"
-  >
-    <p class="mb-3">Phones get the VIP treatment. Download the app to jump in.</p>
-    <a
-      href="https://apps.apple.com/app/id6751006344"
-      target="_blank"
-      rel="noopener"
-      aria-label="Download Sexy Unique RPG on the App Store"
-      class="inline-block"
+  <!-- Email signup -->
+  <div class="mt-6 w-full max-w-lg">
+    <form
+      name="contact"
+      netlify
+      data-contact-form
+      class="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch"
     >
-      <img
-        src="/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-        alt="Download on the App Store"
-        class="h-12 w-auto"
-        loading="lazy"
+      <!-- Netlify fields -->
+      <input type="hidden" name="form-name" value="contact" />
+      <input type="hidden" name="subject" value="SURPG Updates Signup" />
+      <input type="hidden" name="message" value="User requested email updates for SURPG." />
+      <input type="hidden" name="source" value="game_coming_soon_page" />
+
+      <label for="updates-email" class="sr-only">Email address</label>
+      <input
+        id="updates-email"
+        name="email"
+        type="email"
+        required
+        placeholder="Enter your email for updates"
+        autocomplete="email"
+        inputmode="email"
+        class="min-w-0 flex-1 rounded-xl px-4 py-3 text-[16px] text-black/90 placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-[#6c5ce7]"
       />
-    </a>
+
+      <button
+        type="submit"
+        class="rounded-xl px-5 py-3 font-semibold text-white w-full sm:w-auto transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6c5ce7]"
+        style="background-color:#6c5ce7;"
+      >
+        Notify Me
+      </button>
+    </form>
+
+    <div
+      class="thankyou mt-4 text-center font-semibold text-[#81ecec] text-[clamp(14px,3vw,16px)]"
+      style="display:none;"
+    >
+      Thanks! You’re on the list. 💌
+    </div>
+
+    <p class="mt-3 text-center text-white/70 text-[clamp(12px,3vw,14px)]">
+      We’ll only email you about SURPG updates. You can unsubscribe anytime.
+    </p>
   </div>
 </section>
 
-<!-- ── VISIBILITY LOGIC ──────────────────────────────────────── -->
 <script type="module">
-  // ── CONFIG FLAG ──
-  const followBusinessHours = true; // ⬅ flip to false to ignore hours
+  const enhanceForm = (form) => {
+    const thankyou = form.parentElement.querySelector('.thankyou');
 
-  // Mobile detection (UA-based so desktop narrow windows aren't misclassified)
-  const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(
-    navigator.userAgent
-  );
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const myForm = event.target;
+      const formData = new FormData(myForm);
 
-  // Returns true if the current time in America/Los_Angeles is 17:00–21:59
-  function inBusinessHours() {
-    const now = new Date();
-    const ptHour = Number(
-      new Intl.DateTimeFormat("en-US", {
-        hour: "numeric",
-        hour12: false,
-        timeZone: "America/Los_Angeles",
-      }).format(now)
-    );
-    return ptHour >= 17 && ptHour < 22;
-  }
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString()
+      })
+      .then(() => {
+        myForm.style.display = "none";
+        if (thankyou) thankyou.style.display = "block";
+      })
+      .catch(error => alert(error));
+    };
 
-  const gameEl = document.getElementById("game-container");
-  const closedEl = document.getElementById("closed-message");
-  const mobileEl = document.getElementById("mobile-message");
+    form.addEventListener("submit", handleSubmit);
+  };
 
-  if (isMobile) {
-    // 🔒 Mobile override: show App Store, hide everything else
-    gameEl.style.display = "none";
-    closedEl.style.display = "none";
-    mobileEl.style.display = "block";
-
-    // Optional: stop the iframe from loading at all on mobile
-    const iframe = gameEl.querySelector("iframe");
-    if (iframe) iframe.removeAttribute("src");
-  } else {
-    if (followBusinessHours) {
-      // Desktop: respect business hours
-      const showGame = inBusinessHours();
-      gameEl.style.display = showGame ? "" : "none";
-      closedEl.style.display = showGame ? "none" : "block";
-      mobileEl.style.display = "none";
-    } else {
-      // Desktop: always show game
-      gameEl.style.display = "";
-      closedEl.style.display = "none";
-      mobileEl.style.display = "none";
-    }
-  }
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('form[data-contact-form]').forEach(enhanceForm);
+  });
 </script>

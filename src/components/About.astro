@@ -4,85 +4,57 @@ import { QUOTE, SITE_TITLE } from "@/consts";
 ---
 
 <div
-  class="fixed top-0 -z-10 !w-screen md:block h-screen bg-cover bg-center tracking-wide"
-  style="background-image: url('/surpgio_background.png');"
+  class="fixed inset-0 -z-10 bg-cover bg-center"
+  style="background-image:url('/surpgio_background.png');"
 ></div>
 
+
 <section
-  class="min-h-0 flex-1 !z-[20] relative w-full flex flex-col items-center justify-center pt-8 pb-6 overflow-auto"
   id="hero"
+  class="relative w-full flex flex-col items-center justify-center px-4 sm:px-6 py-8 sm:py-10 min-h-[80dvh] md:min-h-[70dvh] overflow-visible"
 >
-    <div 
-      class="mt-8 text-center w-full max-w-3xl rounded-lg text-white flex flex-col justify-center aspect-[4/3] overflow-hidden"
-      style="
-        background: linear-gradient(to bottom, rgba(108, 92, 231, 0.7), rgba(72, 61, 156, 0.7));
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: clamp(12px, 4vw, 56px);
-      "
-    >
-        <div 
-          class="about-text"
-          style="
-            color: #dfe6e9;
-            text-align: justify;
-            text-align-last: left;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1 1 0%;
-            overflow: hidden;
-          "
-        >
-            <span id="about-content" style="display: block;">
-              
-              <b>Sexy Unique RPG</b> is a 16-bit style, top-down RPG inspired by the early seasons of Vanderpump Rules. Set in a pixelated West Hollywood, you play as a new server at SUR (Sexy Unique Restaurant), where the tips are low and the stakes are high.
-              <br><br>
-              Talk to AI-powered versions of the cast, stir up drama, and try to survive the social minefield of WeHo nightlife, all under the watchful eye of Lisa Vanderpump.
-              <br><br>
-              The game is a fictionalized take on the Vanderpump Rules universe, with original storylines and scenes that expand over time. Two chaotic episodes are available now, with more on the way.
-             <br><br>
-             Currently open from 5–10 PM PT. Server drama is expensive when you’re literally paying for server time.
-             <br><br>
-             Best played on a desktop browser. Mobile support is limited.
-             <br>
-            </span>
-            <div class="font-bold text-center" id="about-bottom" style="color: #55efc4; font-size: 1.2em; margin-top: 0.5em; text-align: center; text-align-last: center;">
-                Serve drinks. Start drama. Become a legend.
-              </div>
-        </div>
-         
-        <script>
-          // Dynamically shrink font size to fit the div without overflow
-          function fitTextToContainer(container, minFont = 10, maxFont = 18) {
-            let fontSize = maxFont;
-            const content = container.querySelector("#about-content");
-            container.style.fontSize = fontSize + "px";
-            content.style.fontSize = fontSize + "px";
-            while (
-              (container.scrollHeight > container.clientHeight || content.scrollWidth > container.clientWidth)
-              && fontSize > minFont
-            ) {
-              fontSize -= 1;
-              container.style.fontSize = fontSize + "px";
-              content.style.fontSize = fontSize + "px";
-            }
-          }
-          window.addEventListener("DOMContentLoaded", () => {
-            const container = document.querySelector(".about-text");
-            if (container) fitTextToContainer(container, 10, 18);
-          });
-          window.addEventListener("resize", () => {
-            const container = document.querySelector(".about-text");
-            if (container) fitTextToContainer(container, 10, 18);
-          });
-        </script>
+  <div
+    class="w-full max-w-3xl rounded-2xl text-white flex flex-col justify-center shadow-xl backdrop-blur-sm"
+    style="
+      background: linear-gradient(to bottom, rgba(108, 92, 231, 0.78), rgba(72, 61, 156, 0.78));
+      padding: clamp(16px, 4vw, 48px);
+    "
+  >
+    <div class="mx-auto w-full max-w-prose">
+      <h1 class="text-[clamp(20px,5vw,28px)] font-semibold leading-tight text-[#dfe6e9] text-center [text-wrap:balance]">
+        About <span class="font-bold">Sexy Unique RPG</span>
+      </h1>
+
+      <div class="mt-4 space-y-4 text-[#dfe6e9] leading-relaxed text-[clamp(14px,3.5vw,18px)]">
+        <p>
+          <b>Sexy Unique RPG</b> is a 16-bit style, top-down RPG inspired by the early seasons of Vanderpump Rules.
+          Set in a pixelated West Hollywood, you play as a new server at SUR (Sexy Unique Restaurant), where the tips
+          are low and the stakes are high.
+        </p>
+
+        <p>
+          Talk to AI-powered versions of the cast, stir up drama, and try to survive the social minefield of WeHo
+          nightlife, all under the watchful eye of Lisa Vanderpump.
+        </p>
+
+        <p>
+          The game is a fictionalized take on the Vanderpump Rules universe, with original storylines and scenes that
+          expand over time. Two chaotic episodes are available now, with more on the way.
+        </p>
+
+        <p>
+          Currently open from 5–10 PM PT. Server drama is expensive when you’re literally paying for server time.
+          Best played on a desktop browser; mobile support is limited.
+        </p>
+      </div>
+
+      <div
+        id="about-bottom"
+        class="mt-5 text-center font-bold text-[clamp(16px,4vw,20px)]"
+        style="color:#55efc4;"
+      >
+        Serve drinks. Start drama. Become a legend.
+      </div>
     </div>
+  </div>
 </section>
-
-
-
